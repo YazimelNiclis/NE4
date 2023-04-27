@@ -7,6 +7,7 @@ const {
   obtenerTelefonoPorId,
   obtenerTelefonoPorIdBody,
   obtenerTelefonoPorIdQuery,
+  insertTelefono,
 } = require("../controllers/agendaControllers");
 const { validarId } = require("../middlewares/agenda/agenda");
 const {
@@ -36,6 +37,8 @@ routes.get(
   validarId,
   obtenerTelefonoPorId
 );
+
+routes.post("/telefonos", insertTelefono);
 
 routes.get("/error", error);
 module.exports = routes;

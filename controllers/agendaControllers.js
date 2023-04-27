@@ -32,13 +32,40 @@ exports.error = (req, res) => {
   res.status(400).json({ mensaje: "error" });
 };
 
-exports.obtenerTelefonoPorId = (req, res) => {
+exports.obtenerTelefonoPorId = async (req, res) => {
   //:id
   const id = Number(req.params.id);
-  const resultado = agenda.find((telefono) => {
-    return telefono.id === id;
-  });
-  res.status(200).json({ telefono: resultado });
+  try {
+    const resultado = await knex.select("*").from("agenda").where("id", id);
+    res.status(200).json({ telefono: resultado });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+exports.insertTelefono = async (req, res) => {
+  //body
+  const { id, name, number } = req.body;
+  try {
+    const verificacionId = await knex
+      .select("*")
+      .from("agenda")
+      .where("id", id); //
+    if (verificacionId.length) {
+      res.status(400).json({ error: "Ya existe un registro con ese id" });
+      return;
+    }
+    const resultado = await knex("agenda").insert({
+      id: id,
+      name: name,
+      number: number,
+    });
+    res
+      .status(200)
+      .json({ mensaje: "El registro se inserto correctamente en la bd" });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 };
 
 exports.obtenerTelefonoPorIdQuery = (req, res) => {

@@ -4,8 +4,16 @@ const knex = require("../config/knexfile");
 exports.obtenerTelefonos = async (req, res) => {
   //CRUD,  Create, Read, Update y Delete
 
+  /*  if (req.user.perfil == "cliente") {
+    res
+      .status(401)
+      .json({
+        error: "No posee los permisos necesarios para acceder al recurso",
+      });
+    return;
+  } */
   try {
-    const resultado = await knex.select("*").from("agenda");
+    const resultado = await knex("agenda");
     res.status(200).json({ agenda: resultado });
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -50,7 +58,8 @@ exports.insertTelefono = async (req, res) => {
     const verificacionId = await knex
       .select("*")
       .from("agenda")
-      .where("id", id); //
+      .where("id", id);
+
     if (verificacionId.length) {
       res.status(400).json({ error: "Ya existe un registro con ese id" });
       return;

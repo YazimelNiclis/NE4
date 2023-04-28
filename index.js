@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 require("dotenv").config();
 const agendaRoutes = require("./routes/agendaRoutes");
+const usuarioRoutes = require("./routes/usuarioRoutes");
 const agenda = require("./data/agenda");
 //creamos el servidor con express
 const app = express();
@@ -17,6 +18,7 @@ app.use(cors());
 
 // colocar rutas
 app.use("/api", agendaRoutes);
+app.use("/api", usuarioRoutes);
 
 // levantar el servidor en un puerto
 const port = process.env.PORT || 8000;

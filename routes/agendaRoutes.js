@@ -15,9 +15,10 @@ const {
   idValidatorBody,
 } = require("../middlewares/validators/agenda");
 const { runValidation } = require("../middlewares/validators");
+const { verifyToken } = require("../middlewares/auth/auth");
 
 //rutas y recursos
-routes.get("/telefonos", obtenerTelefonos);
+routes.get("/telefonos", verifyToken, obtenerTelefonos);
 routes.get("/cantidadNumeros", obtenerCantidad);
 
 //agregar middleware de body

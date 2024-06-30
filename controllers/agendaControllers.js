@@ -1,5 +1,4 @@
-/* const agenda = require("../data/agenda"); */
-const knex = require("../config/knexfile");
+const agenda = require("../data/agenda");
 
 exports.obtenerTelefonos = async (req, res) => {
   //CRUD,  Create, Read, Update y Delete
@@ -13,8 +12,7 @@ exports.obtenerTelefonos = async (req, res) => {
     return;
   } */
   try {
-    const resultado = await knex("agenda");
-    res.status(200).json({ agenda: resultado });
+    res.status(200).json({ agenda: agenda });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -41,67 +39,24 @@ exports.error = (req, res) => {
 };
 
 exports.obtenerTelefonoPorId = async (req, res) => {
-  //:id
-  const id = Number(req.params.id);
-  try {
-    const resultado = await knex.select("*").from("agenda").where("id", id);
-    res.status(200).json({ telefono: resultado });
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
+  res.status(200).json({ telefono: "ok" });
 };
 
 exports.insertTelefono = async (req, res) => {
   //body
   const { id, name, number } = req.body;
-  try {
-    const verificacionId = await knex
-      .select("*")
-      .from("agenda")
-      .where("id", id);
 
-    if (verificacionId.length) {
-      res.status(400).json({ error: "Ya existe un registro con ese id" });
-      return;
-    }
-    const resultado = await knex("agenda").insert({
-      id: id,
-      name: name,
-      number: number,
-    });
-    res
-      .status(200)
-      .json({ mensaje: "El registro se inserto correctamente en la bd" });
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
+  res
+    .status(200)
+    .json({ mensaje: "El registro se inserto correctamente en la bd" });
 };
 
 exports.obtenerTelefonoPorIdQuery = (req, res) => {
   //?id=2
-  const id = Number(req.query.id);
-  const resultado = agenda.find((telefono) => {
-    return telefono.id === id;
-  });
-  if (resultado) {
-    res.status(200).json({ telefono: resultado });
-  } else {
-    res
-      .status(404)
-      .json({ mensaje: "No se ha encontra un registro con ese id" });
-  }
+
+  res.status(200).json({ telefono: "ok" });
 };
 
 exports.obtenerTelefonoPorIdBody = (req, res) => {
-  const { id } = req.body; // {id: 2, nombre: yazimel, apellido:}
-  const resultado = agenda.find((telefono) => {
-    return telefono.id === id;
-  });
-  if (resultado) {
-    res.status(200).json({ telefono: resultado });
-  } else {
-    res
-      .status(404)
-      .json({ mensaje: "No se ha encontra un registro con ese id" });
-  }
+  res.status(200).json({ telefono: "ok" });
 };
